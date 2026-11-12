@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Lead Catcher – Live Demo | Raghav Digi Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:radial-gradient(circle at 20% 10%,#1d2b52,#0b1324 60%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.wrap{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:1000px}
+.copy{max-width:420px}
+.tag{display:inline-block;background:linear-gradient(90deg,#ffb020,#ff8a00);color:#0b1324;font-weight:800;font-size:12px;padding:6px 12px;border-radius:99px;letter-spacing:.5px}
+h1{font-size:38px;line-height:1.15;margin:16px 0 12px;font-weight:800}
+h1 span{background:linear-gradient(90deg,#ffb020,#ff8a00);-webkit-background-clip:text;color:transparent}
+p.lead{color:#b9c3dd;font-size:17px;line-height:1.6}
+ul{list-style:none;margin:20px 0}
+li{padding:8px 0;color:#dfe5f5;font-size:15px}
+li b{color:#ffb020}
+.price{margin-top:8px;font-size:15px;color:#b9c3dd}
+.price b{font-size:26px;color:#fff}
+button.replay{margin-top:18px;background:#fff;color:#0b1324;border:0;font:inherit;font-weight:800;padding:12px 22px;border-radius:12px;cursor:pointer}
+.phone{width:300px;height:610px;background:#111;border-radius:44px;padding:12px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 2px #333}
+.screen{width:100%;height:100%;background:#f2f3f7;border-radius:34px;overflow:hidden;position:relative;color:#111}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:100px;height:24px;background:#111;border-radius:20px;z-index:5}
+.status{display:flex;justify-content:space-between;padding:12px 22px 0;font-size:12px;font-weight:600}
+.call{position:absolute;inset:0;background:linear-gradient(#1c2c4f,#0b1324);color:#fff;display:flex;flex-direction:column;align-items:center;padding-top:110px;transition:opacity .5s;z-index:3}
+.call .av{width:84px;height:84px;border-radius:50%;background:#ff8a00;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800}
+.call h3{margin-top:16px;font-size:22px}.call small{opacity:.7;margin-top:6px}
+.call .missed{margin-top:40px;color:#ff6b6b;font-weight:800;opacity:0;transition:opacity .4s}
+.ring{animation:ring 1s infinite}
+@keyframes ring{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.chat{position:absolute;inset:44px 0 0;display:flex;flex-direction:column}
+.head{text-align:center;padding:8px;border-bottom:1px solid #ddd;font-size:13px;font-weight:600;background:#f8f8fb}
+.msgs{flex:1;padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.m{max-width:80%;padding:9px 13px;border-radius:18px;font-size:13.5px;line-height:1.4;opacity:0;transform:translateY(10px);transition:all .35s}
+.m.show{opacity:1;transform:none}
+.biz{background:#e5e5ea;align-self:flex-start;border-bottom-left-radius:5px}
+.cus{background:#0a84ff;color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.sys{align-self:center;font-size:11px;color:#888;background:none;padding:2px}
+.typing{align-self:flex-start;background:#e5e5ea;border-radius:18px;padding:10px 14px;display:none}
+.typing i{display:inline-block;width:6px;height:6px;background:#999;border-radius:50%;margin:0 2px;animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.3}50%{opacity:1}}
+.toast{position:absolute;left:10px;right:10px;bottom:14px;background:#0b1324;color:#fff;font-size:12px;padding:10px 12px;border-radius:14px;opacity:0;transition:opacity .4s;z-index:4}
+.toast b{color:#ffb020}
+</style></head><body>
+<div class="wrap">
+ <div class="copy">
+  <span class="tag">AI LEAD CATCHER · LIVE DEMO</span>
+  <h1>Missed a call? <span>AI texts them back in 5 seconds.</span></h1>
+  <p class="lead">When you're on a job and can't answer, most callers try the next company. The AI Lead Catcher texts every missed caller back instantly, asks what they need and sends you the lead, ready to quote.</p>
+  <ul>
+   <li><b>✓</b> Instant text-back on every missed call, 24/7</li>
+   <li><b>✓</b> AI asks service, address and timing for you</li>
+   <li><b>✓</b> Lead summary sent to your phone or email</li>
+   <li><b>✓</b> Works with your existing business number</li>
+  </ul>
+  <div class="price"><b>$97/mo</b> · set up in 48 hours · cancel anytime</div>
+  <button class="replay" onclick="run()">▶ Replay demo</button>
+ </div>
+ <div class="phone"><div class="screen">
+  <div class="notch"></div>
+  <div class="status"><span>9:41</span><span>▮▮▮ 5G</span></div>
+  <div class="call" id="call"><div class="av ring" id="av">J</div><h3>Jessica M.</h3><small>Calling your business…</small><div class="missed" id="missed">✕ Missed call — you're on a job</div></div>
+  <div class="chat"><div class="head">Your Business · AI Assistant</div><div class="msgs" id="msgs"><div class="typing" id="typing"><i></i><i></i><i></i></div></div></div>
+  <div class="toast" id="toast">📩 <b>New lead captured:</b> Jessica M. · driveway + patio wash · Irvine · Sat morning</div>
+ </div></div>
+</div>
+<script>
+const script=[
+ ['sys','Missed call · 2:14 PM',0],
+ ['biz',"Hi! Sorry we missed your call 🙏 We're on a job right now. What can we help you with today?",1200],
+ ['cus','Hi, I need my driveway and patio pressure washed',2600],
+ ['biz','Great, we can help! Roughly how big is the area, and what city are you in?',1500],
+ ['cus','About 800 sq ft, Irvine',2400],
+ ['biz','Perfect, we cover Irvine. When works best for you?',1500],
+ ['cus','Saturday morning if possible',2200],
+ ['biz',"Got it ✅ Saturday morning, Irvine, ~800 sq ft. The owner will text you a quote within the hour!",1600]
+];
+let timers=[];
+function T(f,ms){timers.push(setTimeout(f,ms))}
+function run(){
+ timers.forEach(clearTimeout);timers=[];
+ const msgs=document.getElementById('msgs'),typing=document.getElementById('typing');
+ msgs.querySelectorAll('.m').forEach(e=>e.remove());
+ const call=document.getElementById('call'),missed=document.getElementById('missed'),av=document.getElementById('av'),toast=document.getElementById('toast');
+ call.style.opacity=1;call.style.pointerEvents='auto';missed.style.opacity=0;av.classList.add('ring');toast.style.opacity=0;
+ T(()=>{av.classList.remove('ring');missed.style.opacity=1},2200);
+ T(()=>{call.style.opacity=0;call.style.pointerEvents='none'},3400);
+ let t=3800;
+ script.forEach(([who,text,delay])=>{
+  t+=delay;
+  if(who==='biz'){T(()=>{typing.style.display='block';msgs.appendChild(typing)},t-900)}
+  T(()=>{typing.style.display='none';const d=document.createElement('div');d.className='m '+who;d.textContent=text;msgs.insertBefore(d,typing);requestAnimationFrame(()=>d.classList.add('show'))},t);
+ });
+ T(()=>toast.style.opacity=1,t+1200);
+}
+run();
+</script>
+</body></html>
